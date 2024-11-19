@@ -1,12 +1,13 @@
 -- 2023028536
 -- A2
 SELECT DISTINCT
-    ano_jogos as Ano,
-    estacao as Estação
+    ano_jogos as Ano, estacao as Estação
 FROM
     jogos as J
-JOIN jogos_cidade
-JOIN cidade
+JOIN jogos_cidade AS JC
+    ON J.id_jogos = JC.id_jogos 
+JOIN cidade AS C
+    ON JC.id_cidade = C.id_cidade
 WHERE nome_cidade = 'Londres' ;
 -- A0
 SELECT
@@ -18,12 +19,13 @@ JOIN jogos_competidor as JC
 WHERE idade >= 80 ;
 -- A3
 SELECT DISTINCT
-    nome_completo as Nome,
-    altura as Altura
+    nome_completo as Nome, altura as Altura
 FROM
     pessoa as P
-JOIN jogos_competidor
+JOIN jogos_competidor AS JC
+    ON P.id_pessoa = JC.id_pessoa
 JOIN jogos as J
+    ON JC.id_jogos = J.id_jogos
 WHERE (P.altura >= 215 AND J.ano_jogos = 2016) ;
 -- A4
 SELECT 
