@@ -80,7 +80,7 @@ GROUP BY
 ORDER BY
     Ano ASC ;
 -- B5
-SELECT
+SELECT DISTINCT
     nome_pais AS País, nome_continente AS Continente
 FROM 
     cidade AS C
