@@ -80,12 +80,16 @@ GROUP BY
 ORDER BY
     Ano ASC ;
 -- B5
-SELECT DISTINCT
-    nome_pais as País, nome_continente as Continente
-FROM
-    cidade as C
-LEFT JOIN jogos_cidade as JC
-WHERE id_jogos IS NOT NULL ;
+SELECT
+    nome_pais AS País, nome_continente AS Continente
+FROM 
+    cidade AS C
+JOIN jogos_cidade as JC
+    ON C.id_cidade = JC.id_cidade
+JOIN jogos as J
+    ON JC.id_jogos = J.id_jogos
+WHERE
+    J.estacao = 'Inverno' ;
 -- B3
 SELECT 
     C.nome_cidade AS Cidade, 
@@ -100,18 +104,26 @@ HAVING
     COUNT(JC.id_jogos) > 1 ;
 -- B6
 SELECT 
-    J.ano_jogos AS Ano,
-    C.nome_cidade AS Cidade,
-    COUNT (DISTINCT J.nome_jogos) AS 'Quantidade Esportes'
+    J.ano_jogos as Ano,
+    C.nome_cidade as Cidade,
+    COUNT(DISTINCT E.id_esporte) as 'Quantidade Esportes'
 FROM
-    jogos AS J
-JOIN jogos_cidade AS JC
-    ON J.id_jogos = JC.id_jogos
-JOIN cidade as C
-    ON JC.id_cidade = C.id_cidade
+    cidade as C
+JOIN jogos_cidade as JC
+    ON C.id_cidade = JC.id_cidade
+JOIN jogos as J
+    ON JC.id_jogos = J.id_jogos
+JOIN jogos_competidor as JCOM
+    ON J.id_jogos = JCOM.id_jogos
+JOIN competidor_evento as CE
+    ON JCOM.id_competidor = CE.id_competidor
+JOIN evento as E
+    ON CE.id_evento = E.id_evento
+JOIN esporte as ES
+    ON E.id_esporte = ES.id_esporte
 WHERE
-    estacao = 'Verão'
+    J.estacao = 'Verão'
 GROUP BY
     J.ano_jogos, C.nome_cidade
 ORDER BY
-    ano_jogos ASC ;
+    J.ano_jogos ASC ;
